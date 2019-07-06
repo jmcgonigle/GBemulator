@@ -125,3 +125,6 @@ dmypy.json
 
 # place to store roms
 roms/
+
+.DS_Store
+.idea/
