@@ -1,5 +1,5 @@
 import logging
-
+import time
 
 log = logging.getLogger(__name__)
 
@@ -28,3 +28,21 @@ class Registers:
 class CPU:
     def __init__(self):
         self.registers = Registers()
+        self.start_time = time.process_time()
+        self.total_cycles = 0
+
+    def estimate_clock_cycle(self):
+        """
+        A hacky attempt to estimate the clock speed of the computer, and return it based on the time elapsed and the
+        number of cycles cleared.
+        :return: clocks per second in MHz
+        """
+        time_elapsed = time.process_time() - self.start_time
+
+        # Handle the divide by 0 errors
+        if time_elapsed == 0:
+            return 0
+
+        clock_per_second = self.total_cycles/time_elapsed
+
+        return clock_per_second / 1000000

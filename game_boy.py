@@ -1,6 +1,7 @@
 import argparse
 import logging
 import coloredlogs
+from gbemulator.cpu import CPU
 
 log = logging.getLogger(__name__)
 
@@ -26,6 +27,7 @@ def main():
     args = get_args()
     emulator = PyGameBoy(ROM=args.insert_rom)
     emulator.print_hex_range(0, 14)
+    cpu = CPU()
 
 
 if __name__ == '__main__':
