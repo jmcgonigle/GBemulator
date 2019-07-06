@@ -18,6 +18,27 @@ def main():
 
     print(cpu.registers)
 
+    # bios:
+    # 0x31, 0xFE, 0xFF,
+    # LD SP,$fffe
+
+    # 0xAF,
+    # XOR A
+
+    # 0x21, 0xFF, 0x9F,
+    # LD HL,$9fff
+
+    # 0x32,
+    # LD (HL-),A
+
+    # 0xCB, 0x7C,
+    # BIT 7,H
+
+    # 0x20, 0xFB,
+    # JR NZ
+
+    # 0x21, 0x26, 0xFF, 0x0E,
+
 
 if __name__ == "__main__":
     coloredlogs.install(

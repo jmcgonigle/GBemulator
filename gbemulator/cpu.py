@@ -97,17 +97,52 @@ class Registers:
         """
         self.f |= flag
 
+    def reset_flag(self, flag):
+        """
+        Set a flag to 0
+        :param flag:
+        :return:
+        """
+        self.f &= ~flag
+
+    def get_flag(self, flag):
+        return self.f & flag == flag
+
     def set_Z(self):
         self.set_flag(self.zero_flag)
+
+    def reset_Z(self):
+        self.set_flag(self.zero_flag)
+
+    def get_Z(self):
+        return self.get_flag(self.zero_flag)
 
     def set_N(self):
         self.set_flag(self.subtract_flag)
 
+    def reset_N(self):
+        self.set_flag(self.subtract_flag)
+
+    def get_N(self):
+        return self.get_flag(self.subtract_flag)
+
     def set_H(self):
         self.set_flag(self.half_carry_flag)
 
+    def reset_H(self):
+        self.set_flag(self.half_carry_flag)
+
+    def get_H(self):
+        return self.get_flag(self.half_carry_flag)
+
     def set_C(self):
         self.set_flag(self.carry_flag)
+
+    def reset_C(self):
+        self.set_flag(self.carry_flag)
+
+    def get_C(self):
+        return self.get_flag(self.carry_flag)
 
     def __str__(self):
         data = self.__dict__.copy()
@@ -142,7 +177,7 @@ class MMU:
     def read_word(self, addr):
         return 0xFFFF
 
-    def write(self):
+    def write_byte(self, addr, value):
         pass
 
 
@@ -196,4 +231,26 @@ class CPU:
 
     # 0x32
     def LDD_HL_A(self):
-        self.registers.hl = self.registers.a - 1
+        """
+        Put the value of A into the _address_ pointed to by HL, then decrement.
+        :return:
+        """
+
+        self.mmu.write_byte(self.registers.hl, self.registers.a)
+        self.registers.hl -= 1
+
+    # 0xCB 0x7C - may need a single BIT method
+    def BIT_H_b(self):
+        # Z - Set if bit b of register r is 0.
+        # N - Reset.
+        # H - Set.
+        # C - Not affected.
+        bit = self._read_and_increment_pc(1)
+
+        self.registers.reset_Z()
+        if (self.registers.h >> bit) & 0x00:
+            self.registers.set_Z()
+
+        self.registers.reset_N()
+
+        self.registers.set_H()

@@ -19,11 +19,11 @@ class Bits:
 
     @staticmethod
     def is_word(value):
-        return value >= 0 and value <= 0xFFFF
+        return 0 <= value <= 0xFFFF
 
     @staticmethod
     def is_byte(value):
-        return value >= 0 and value <= 0xFF
+        return 0 <= value <= 0xFF
 
     @staticmethod
     def check_is_word(value):
