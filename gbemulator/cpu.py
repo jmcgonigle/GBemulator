@@ -257,7 +257,8 @@ class CPU:
         bit = self._read_and_increment_pc(1)
 
         self.registers.reset_Z()
-        if (self.registers.h >> bit) & 0x00:
+
+        if not self.registers.h & (1 << bit):
             self.registers.set_Z()
 
         self.registers.reset_N()
