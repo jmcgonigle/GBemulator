@@ -35,7 +35,7 @@ def main():
     # BIT 7,H
 
     # 0x20, 0xFB,
-    # JR NZ
+    # JR NZ $00FB
 
     # 0x21, 0x26, 0xFF, 0x0E,
 

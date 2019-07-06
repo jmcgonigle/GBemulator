@@ -210,6 +210,15 @@ class CPU:
 
         return value
 
+    def _add_8_bit(self, a, b):
+        """
+        Add two parameters and truncate the value to 8 bit
+        """
+
+        result = a + b
+
+        return result & 0xFF
+
     # 0x31
     def LD_SP_nn(self):
         # read next 2 bytes from the program counter
@@ -254,3 +263,17 @@ class CPU:
         self.registers.reset_N()
 
         self.registers.set_H()
+
+    # 0x20
+    def JR_NZ_n(self):
+        """
+        Relative jump IF the Z register is 0
+        :return:
+        """
+        jump_amount = self._read_and_increment_pc(1)
+
+        if not self.registers.get_Z():
+            current_address = self.registers.pc
+            jump_address = self._add_8_bit(current_address, jump_amount)
+
+            self.registers.pc = jump_address
